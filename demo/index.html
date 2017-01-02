@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+  <head>
+    <title>chrome-tabs demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import" href="../chrome-tabs.html">
+    <link rel="import" href="../chrome-tab.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+    .centered {
+      max-width:90%;
+    }
+    </style>
+  </head>
+  <body>
+
+    <div class="vertical-section-container centered">
+      <h3>Basic chrome-tabs Demo</h3>
+      <demo-snippet>
+        <template>
+          <chrome-tabs></chrome-tabs>
+        </template>
+      </demo-snippet>
+    </div>
+
+    <div class="vertical-section-container centered">
+      <h3>Basic chrome-tab Demo</h3>
+      <demo-snippet>
+        <template>
+          <style is="custom-style">
+            :root {
+              --tab-background-color: #d0d0d0;
+              --tab-selected-color: #f2f2f2;
+              --tab-hover-color: #e8e8e8;
+            }
+            chrome-tab:not(:first-child) {
+              margin-left:-15px
+            }
+          </style>
+          <div style="display:flex;background:yellow;padding:5px">
+            <chrome-tab closable="false">Tab title</chrome-tab>
+            <chrome-tab selected>Tab title</chrome-tab>
+            <chrome-tab>Tab title</chrome-tab>
+            <chrome-tab>Tab title</chrome-tab>
+          </div>
+        </template>
+      </demo-snippet>
+    </div>
+
+  </body>
+</html>

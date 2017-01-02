@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+    .tabs {
+      position:relative;
+      background: linear-gradient(#dad9da, #d9d8d9);
+      display: flex;
+      overflow: hidden;
+      font-family: Roboto;
+      box-sizing: border-box;
+      padding-bottom: 4.5px;
+      padding-left: 5px;
+      padding-right: 5px;
+      align-items: flex-end;
+      padding-top: 10px;
+    }
+    .tab {
+      position: relative;
+      flex:1;
+      max-width: 290px;
+      height: 35px;
+      font-size: 12px;
+      display: flex;
+      overflow: hidden;
+      min-width: 70px;
+      --background-color: #d0d0d0;
+    }
+    .tab:hover {
+      --background-color: #e8e8e8;
+    }
+    .tab:not(:first-child) {
+      margin-left:-15px
+    }
+
+    .spacer {
+      flex:1;
+    }
+    .tab-left {
+      border-top: 35px solid transparent;
+      border-right: 15px solid var(--background-color);
+      z-index:1;
+    }
+    .tab-right {
+      border-top: 35px solid transparent;
+      border-left: 15px solid var(--background-color);
+      z-index:1;
+    }
+    .tab-content {
+      flex: 1;
+      background: var(--background-color);
+      display: flex;
+      flex-direction: row;
+      border-top: 1px solid var(--background-color);
+      white-space: nowrap;
+      overflow: hidden;
+      align-items: center;
+    }
+    .tab-title {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      flex: 1;
+    }
+    .tab-icon {
+      width:20px;
+      margin-right:5px;
+    }
+    .selected, .selected:hover {
+      z-index: 2;
+      --background-color: #f2f2f2;
+    }
+    .bottom-bar {
+      position: absolute;
+      bottom: 0;
+      height: 4.5px;
+      left: 0;
+      width: 100%;
+      background: #f2f2f2;
+      box-shadow: 0 -0.05em rgba(0,0,0,0.27);
+      z-index: 1;
+    }
+    .shadow {
+      position: absolute;
+      border-left-color: rgba(130, 130, 130, 0.6);
+      border-right-color: rgba(130, 130, 130, 0.6);
+    }
+    .tab-right.shadow {
+      right: -1px;
+    }
+    .tab-left.shadow {
+      left: -1px;
+    }
+    .tab-close {
+      width: 18px;
+      box-sizing: border-box;
+      border-radius: 18px;
+      text-align: center;
+    }
+    .tab-close:before {
+      content: "\00D7";
+      font-size: 15px;
+    }
+    .tab-close:hover {
+      background: #e25c4b;
+      color: #fff;
+    }
+    .tab-add {
+      width: 35px;
+      min-width: 35px;
+      box-sizing: border-box;
+      height: 16px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: row;
+      --background-color: rgba(158, 158, 158, 0.58)
+    }
+    .tab-add-right {
+      border-left: 7px solid var(--background-color);
+      border-top: 16px solid transparent;
+    }
+    .tab-add-left {
+      border-right: 7px solid var(--background-color);
+      border-bottom: 16px solid transparent;
+    }
+    .tab-add-content {
+      flex:1;
+      background: var(--background-color);
+    }
+
+    .tab-add:hover {
+      --background-color: rgb(105, 101, 101);
+    }
+    </style>
+  </head>
+  <body>
+    <div class="tabs">
+
+      <div class="tab ">
+        <div class="tab-left shadow"></div>
+        <div class="tab-right shadow"></div>
+        <div class="tab-left"></div>
+        <div class="tab-content">
+          <div class="tab-icon"></div>
+        <div class="tab-title">chrome-tabs</div>
+        <div class="tab-close"></div>
+        </div>
+        <div class="tab-right"></div>
+
+      </div>
+      <div class="tab selected">
+        <div class="tab-left shadow"></div>
+        <div class="tab-right shadow"></div>
+        <div class="tab-left"></div>
+        <div class="tab-content">
+          <div class="tab-icon"></div>
+          <div class="tab-title">tab 2</div>
+          <div class="tab-close"></div>
+        </div>
+        <div class="tab-right"></div>
+      </div>
+      <div class="tab">
+        <div class="tab-left shadow"></div>
+        <div class="tab-right shadow"></div>
+        <div class="tab-left"></div>
+        <div class="tab-content">
+          <img class="tab-icon" src="img/favicon.ico">
+          <div class="tab-title">tab 3</div>
+          <div class="tab-close"></div>
+        </div>
+        <div class="tab-right"></div>
+      </div>
+      <div class="tab">
+        <div class="tab-left shadow"></div>
+        <div class="tab-right shadow"></div>
+        <div class="tab-left"></div>
+        <div class="tab-content">
+          <img class="tab-icon" src="img/p-logo-32.png">
+          <div class="tab-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</div>
+          <div class="tab-close"></div>
+        </div>
+        <div class="tab-right"></div>
+      </div>
+      <div class="tab-add">
+        <div class="tab-add-left"></div>
+        <div class="tab-add-content"></div>
+        <div class="tab-add-right"></div>
+      </div>
+      <!--<div class="spacer"></div>-->
+      <div class="bottom-bar"></div>
+    </div>
+  </body>
+</html>
