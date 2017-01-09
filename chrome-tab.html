@@ -1,3 +1,6 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+
 <dom-module id="chrome-tab">
   <template>
     <style>
@@ -10,9 +13,14 @@
         display: flex;
         overflow: hidden;
         min-width: 70px;
+        outline: none;
         --default-tab-background-color: #d0d0d0;
         --default-tab-selected-color: #f2f2f2;
         --default-tab-hover-color: #e8e8e8;
+      }
+
+      :host:not(:first-child) {
+        margin-left:-15px
       }
 
       .tab-left {
@@ -56,17 +64,17 @@
         border-left-color: var(--tab-hover-color, --default-tab-hover-color);
       }
 
-      :host([selected]) {
+      :host(.iron-selected) {
         z-index: 2;
       }
-      :host([selected]) .tab-content {
+      :host(.iron-selected) .tab-content {
         background: var(--tab-selected-color,--default-tab-selected-color);
         border-top-color: var(--tab-selected-color,--default-tab-selected-color);
       }
-      :host([selected]) .tab-left {
+      :host(.iron-selected) .tab-left {
         border-right-color: var(--tab-selected-color,--default-tab-selected-color);
       }
-      :host([selected]) .tab-right {
+      :host(.iron-selected) .tab-right {
         border-left-color: var(--tab-selected-color,--default-tab-selected-color);
       }
 
@@ -96,10 +104,14 @@
         box-sizing: border-box;
         border-radius: 18px;
         text-align: center;
+        display: flex;
+        align-content: stretch;
+        flex-direction: column-reverse;
       }
       .tab-close:before {
         content: "\00D7";
-        font-size: 15px;
+        font-size: 18px;
+        line-height: 18px;
       }
       .tab-close:hover {
         background: #e25c4b;
