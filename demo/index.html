@@ -24,34 +24,26 @@
       <h3>Basic chrome-tabs Demo</h3>
       <demo-snippet>
         <template>
-          <chrome-tabs></chrome-tabs>
-        </template>
-      </demo-snippet>
-    </div>
-
-    <div class="vertical-section-container centered">
-      <h3>Basic chrome-tab Demo</h3>
-      <demo-snippet>
-        <template>
           <style is="custom-style">
-            :root {
-              --tab-background-color: #d0d0d0;
-              --tab-selected-color: #f2f2f2;
-              --tab-hover-color: #e8e8e8;
-            }
-            chrome-tab:not(:first-child) {
-              margin-left:-15px
+            .content {
+              height: 100px;
+              padding: 10px;
+              box-sizing: border-box;
+              border: 1px solid lightgray;
+              border-top: none;
             }
           </style>
-          <div style="display:flex;background:yellow;padding:5px">
+          <chrome-tabs selected="0">
             <chrome-tab closable="false">Tab title</chrome-tab>
-            <chrome-tab selected>Tab title</chrome-tab>
             <chrome-tab>Tab title</chrome-tab>
             <chrome-tab>Tab title</chrome-tab>
+            <chrome-tab>Tab title</chrome-tab>
+          </chrome-tabs>
+          <div class="content">
+            content 1
           </div>
         </template>
       </demo-snippet>
     </div>
-
   </body>
 </html>
