@@ -8,4 +8,6 @@ Inspired by the project [chrome-tabs][1] by @adamschwartz, this project aims to 
 
 The component is licensed under the [ISC License](LICENSE.md)
 
+Demo and doc are available on http://zedesk.github.io/chrome-tabs/
+
 [1]: https://github.com/adamschwartz/chrome-tabs
