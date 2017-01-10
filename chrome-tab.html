@@ -1,6 +1,30 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 
+<!--
+`chrome-tab` a tab component managed in a chrome-tabs.
+
+a chrome-tab have an icon typically the favico of a website, and a title
+typically the title of the document.
+
+Example :
+
+    <chrome-tab
+        icon='https://www.google.fr/images/branding/product/ico/googleg_lodp.ico'
+        title='Google' >
+    </chrome-tab>
+
+### Styling
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+'--tabs-background-color' | background of a tab | #dad9da
+'--tab-selected-color' | color of the selected tab | #f2f2f2
+'--tab-selected-text' | color of the selected text | black
+'--tab-hover-color' | color on fly over | #e8e8e8
+
+-->
 <dom-module id="chrome-tab">
   <template>
     <style>
@@ -38,7 +62,7 @@
         background: var(--tab-background-color,--default-tab-background-color);
         display: flex;
         flex-direction: row;
-        border-top: 1px solid var(--tab-background-color,--default-tab-background-color);
+        border-top: 1px solid rgba(130, 130, 130, 0.6);
         white-space: nowrap;
         overflow: hidden;
         align-items: center;
@@ -49,8 +73,15 @@
         flex: 1;
       }
       .tab-icon {
-        width:20px;
+        width:18px;
+        height:18px;
         margin-right:5px;
+        display: flex;
+        flex-direction: column;
+        background:url('./noicon.png')
+      }
+      .tab-icon img {
+        width: 18px;
       }
 
       :host(:hover) .tab-content {
@@ -70,6 +101,7 @@
       :host(.iron-selected) .tab-content {
         background: var(--tab-selected-color,--default-tab-selected-color);
         border-top-color: var(--tab-selected-color,--default-tab-selected-color);
+        color: var(--tab-selected-text, black);
       }
       :host(.iron-selected) .tab-left {
         border-right-color: var(--tab-selected-color,--default-tab-selected-color);
@@ -124,9 +156,9 @@
     <div class="tab-right shadow"></div>
     <div class="tab-left"></div>
     <div class="tab-content">
-      <div class="tab-icon"></div>
-      <div class="tab-title"><slot></slot></div>
-      <div class="tab-close"></div>
+      <div class="tab-icon"><img src='{{icon}}'></div>
+      <div class="tab-title">{{title}}</div>
+      <div class="tab-close" hidden$={{unclosable}} on-tap="_close"></div>
     </div>
     <div class="tab-right"></div>
 
@@ -136,11 +168,31 @@
       is: 'chrome-tab',
 
       properties: {
-        icon: String,
+        /**
+         * url of the icon
+         * @type {String}
+         */
+        icon: {
+          type: String,
+        },
 
-        closable: {
+        /**
+         * the title of the tab
+         * @type {String}
+         */
+        title: {
+          type: String,
+          value: 'about:blank',
+        },
+
+        /**
+         * indicates if the tab is unclosable or not
+         * by default, the tab is closable
+         * @type {Boolean}
+         */
+        unclosable: {
           type: Boolean,
-          value: true,
+          value: false,
         },
       },
 
@@ -148,12 +200,15 @@
         role: 'tab',
       },
 
-      listeners: {
-        tap: '_onTap'
-      },
-
-      _onTap: function(event) {
-        // console.log('_onTap');
+      /**
+       * fire a `tab-close` event when clicking on the
+       * close button of the tab
+       *
+       * @event tap-close
+       * @param {chrome-tab} item the curent tab
+       */
+      _close: function(event) {
+        this.fire('tab-close', { item: this });
       },
 
     });
