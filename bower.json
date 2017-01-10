@@ -14,5 +14,13 @@
     "iron-pages": "PolymerElements/iron-pages#^1.0.8",
     "web-component-tester": "^4.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
-  }
+  },
+  "ignore": [
+    "demo/",
+    "test/",
+    "chrome-tabs.gif",
+    "index.html",
+    "README.md",
+    ".gitignore"
+  ]
 }
