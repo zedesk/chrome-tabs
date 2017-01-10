@@ -1,7 +1,22 @@
 {
   "name": "chrome-tabs",
+  "version": "1.0.0",
   "description": "A chrome-tabs component",
+  "license": "LICENSE.md",
   "main": "chrome-tabs.html",
+  "authors": [
+    "zeDesk <dev@zedesk.net>"
+  ],
+  "keywords": [
+    "web-components",
+    "polymer",
+    "tabs",
+    "control"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/zedesk/chrome-tabs.git"
+  },
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
     "iron-menu-behavior": "PolymerElements/iron-menu-behavior#^1.2.0",
