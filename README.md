@@ -8,6 +8,8 @@ Inspired by the project [chrome-tabs][1] by @adamschwartz, this project aims to 
 
 ![chrome-tabs](chrome-tabs.gif)
 
+## Quick example
+
 <!--
 ```
 <custom-element-demo>
