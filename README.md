@@ -8,6 +8,26 @@ Inspired by the project [chrome-tabs][1] by @adamschwartz, this project aims to 
 
 ![chrome-tabs](chrome-tabs.gif)
 
+<!--
+```
+<custom-element-demo>
+  <template>
+    <link rel="import" href="chrome-tabs.html">
+    <link rel="import" href="chrome-tab.html">
+    <next-code-block></next-code-block>
+  </template>
+</custom-element-demo>
+```
+-->
+```html
+<chrome-tabs extendable selected="1" >
+  <chrome-tab icon="https://www.polymer-project.org/images/logos/p-logo-32.png" title="Tab title"></chrome-tab>
+  <chrome-tab icon="https://assets-cdn.github.com/favicon.ico" title="Tab title"></chrome-tab>
+  <chrome-tab title="Tab title"></chrome-tab>
+  <chrome-tab title="Tab title"></chrome-tab>
+</chrome-tabs>
+```
+
 The component is licensed under the [ISC License](LICENSE.md)
 
 Demo and doc are available on http://zedesk.github.io/chrome-tabs/
