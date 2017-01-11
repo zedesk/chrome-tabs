@@ -12,6 +12,7 @@ Inspired by the project [chrome-tabs][1] by @adamschwartz, this project aims to 
 ```
 <custom-element-demo>
   <template>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="chrome-tabs.html">
     <link rel="import" href="chrome-tab.html">
     <next-code-block></next-code-block>
