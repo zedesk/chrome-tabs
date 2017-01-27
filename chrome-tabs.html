@@ -169,10 +169,7 @@ Custom property | Description | Default
       _tabClose: function(evt) {
         evt.target.classList.add('tab-removed');
         const indx = Polymer.dom(this).children.indexOf(evt.target);
-        if(this.selected === indx && indx === Polymer.dom(this).children.length - 1) {
-          this.selected--;
-        }
-        Polymer.dom(this).removeChild(evt.target);
+        this.removeTab(indx);
         this.fire('tab-remove', { index: indx });
       },
 
@@ -210,6 +207,21 @@ Custom property | Description | Default
         this.selected = Polymer.dom(this).children.length - 1;
         return tab;
       },
+
+      /**
+       * remove a tab by its index
+       * @method removeTab
+       * @param  {Number}  index the index of the tab to remove
+       */
+      removeTab: function(index) {
+        if( index < 0 || index >= this.items.length ) {
+          throw new Error('bad index');
+        }
+        if(this.selected === index && index === Polymer.dom(this).children.length - 1) {
+          this.selected--;
+        }
+        Polymer.dom(this).removeChild(this.items[index]);
+      }
     });
   </script>
 </dom-module>

@@ -1,6 +1,6 @@
 {
   "name": "chrome-tabs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A chrome-tabs component",
   "license": "LICENSE.md",
   "main": "chrome-tabs.html",
@@ -30,5 +30,12 @@
     "web-component-tester": "^4.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
-  "ignore": [ ]
+  "ignore": [
+    "demo/",
+    "test/",
+    "chrome-tabs.gif",
+    "index.html",
+    "README.md",
+    ".gitignore"
+  ]
 }
