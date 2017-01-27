@@ -1,4 +1,8 @@
 
+### v1.0.2
+
+ - add a removeTab method
+
 ### v1.0.1
 
  - Fix bower.json
