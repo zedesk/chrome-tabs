@@ -1,6 +1,6 @@
 {
   "name": "chrome-tabs",
-  "version": "1.0.2-pre",
+  "version": "1.0.2",
   "description": "A chrome-tabs component",
   "license": "LICENSE.md",
   "main": "chrome-tabs.html",
