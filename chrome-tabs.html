@@ -155,10 +155,6 @@ Custom property | Description | Default
       },
 
       _onIronSelect: function(event) {
-        if(event.detail.item.classList.contains('tab-removed')) {
-          this.selected = Polymer.dom(this).children.indexOf(this._previousTab);
-          return;
-        }
         this._previousTab = event.detail.item;
         this.cancelDebouncer('tab-changed');
       },
