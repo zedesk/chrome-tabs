@@ -56,6 +56,9 @@ Custom property | Description | Default
         box-sizing: inherit;
         font-family: inherit;
       }
+      :host ::content chrome-tab:not(:first-child) {
+        margin-left: -15px;
+      }
       .chrome-tabs-bottom-bar {
         position: absolute;
         bottom: 0;
