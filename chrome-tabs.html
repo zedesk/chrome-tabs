@@ -172,7 +172,6 @@ Custom property | Description | Default
       _tabClose: function(evt) {
         evt.target.classList.add('tab-removed');
         const indx = Polymer.dom(this).children.indexOf(evt.target);
-        this.removeTab(indx);
         this.fire('tab-remove', { index: indx });
       },
 
@@ -188,43 +187,9 @@ Custom property | Description | Default
        * @param {chrome-tab} item the created tab.
        */
       _add: function() {
-        const tab = this.addTab();
-        this.fire('tab-add', { item: tab });
+        this.fire('tab-add');
       },
 
-      /**
-       * create a new tab
-       *
-       * the new tab becomes the selected one
-       *
-       * @method addTab
-       * @param  {String} icon  url of the icon
-       * @param  {String} title title of the tab
-       * @return {chrome-tab} the created chrome tab
-       */
-      addTab: function(icon, title) {
-        const tab = document.createElement('chrome-tab');
-        if(icon) { tab.icon = icon; }
-        if(title) { tab.title = title; }
-        Polymer.dom(this).appendChild(tab);
-        this.selected = Polymer.dom(this).children.length - 1;
-        return tab;
-      },
-
-      /**
-       * remove a tab by its index
-       * @method removeTab
-       * @param  {Number}  index the index of the tab to remove
-       */
-      removeTab: function(index) {
-        if( index < 0 || index >= this.items.length ) {
-          throw new Error('bad index');
-        }
-        if(this.selected === index && index === Polymer.dom(this).children.length - 1) {
-          this.selected--;
-        }
-        Polymer.dom(this).removeChild(this.items[index]);
-      }
     });
   </script>
 </dom-module>
