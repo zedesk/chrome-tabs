@@ -35,7 +35,7 @@ Custom property | Description | Default
 @demo demo/index.html
 -->
 <dom-module id="chrome-tabs">
-  <template>
+  <template strip-whitespace>
     <style>
       :host {
         display: flex;
@@ -107,7 +107,6 @@ Custom property | Description | Default
       .tab-add:hover .tab-add-left {
         border-right-color: var(--tabs-add-hover-color, rgb(105, 101, 101));
       }
-
     </style>
     <div class="chrome-tabs-top"></div>
     <div class="chrome-tabs-content">
