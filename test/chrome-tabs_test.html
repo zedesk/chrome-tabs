@@ -1,0 +1,50 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>chrome-tabs test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../chai/chai.js"></script>
+
+    <link rel="import" href="../chrome-tabs.html">
+    <link rel="import" href="../chrome-tab.html">
+  </head>
+  <body>
+
+    <test-fixture id="basic">
+      <template>
+        <chrome-tabs></chrome-tabs>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite('chrome-tabs', function() {
+
+        test('instantiating the element works', function() {
+          const element = fixture('basic');
+          assert.equal(element.is, 'chrome-tabs');
+          expect(element.extendable).to.be.false;
+          expect(element.selected).to.be.undefined;
+          expect(element.items.length).to.be.equal(0);
+        });
+
+        test('add a tab', function(done) {
+          const element = fixture('basic');
+          const newTab = document.createElement('chrome-tab');
+          newTab.icon = 'https://www.polymer-project.org/images/logos/p-logo-32.png',
+          newTab.title = '';
+          Polymer.dom(element).appendChild(newTab);
+
+          flush( () => {
+            expect(element.items.length).to.be.equal(1);
+            done();
+          });
+        });
+
+      });
+    </script>
+  </body>
+</html>

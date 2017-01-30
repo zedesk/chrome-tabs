@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+    <style>
+    #subsuites {
+      width: 1024px;
+    }
+    #mocha {
+      z-index:1;
+    }
+    </style>
+  </head>
+  <body>
+    <script>
+      // Load and run all tests (.html, .js):
+      WCT.loadSuites([
+        'chrome-tabs_test.html',
+        'chrome-tabs_test.html?dom=shadow'
+      ]);
+    </script>
+  </body>
+</html>
