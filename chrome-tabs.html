@@ -153,8 +153,44 @@ Custom property | Description | Default
         'tab-close':'_tabClose',
       },
 
+      attached: function() {
+          Polymer.dom(this).observeNodes((info) => {
+            this._attachedNodes(info.addedNodes);
+            this._removedNodes(info.removedNodes);
+          });
+      },
+
+      _attachedNodes: function(nodes) {
+        const addedTabs = nodes.filter( node => {
+          return node.tagName === "CHROME-TAB";
+        })
+        if( addedTabs.length === 1 ) {
+          this.selected = this.items.length - 1;
+        }
+      },
+
+      _removedNodes: function(nodes) {
+        const removedTabs = nodes.filter( node => {
+          return node.tagName === "CHROME-TAB";
+        })
+        if( removedTabs.length && this.selected > this.items.length - 1 ) {
+          this.selected = this.items.length - 1;
+        }
+      },
+
       _onIronSelect: function(event) {
-        this._previousTab = event.detail.item;
+        if (this._previousSelect !== this.selected ) {
+          this._previousTab = event.detail.item;
+          this._previousSelect = this.selected;
+        } else if( this._previousTab !== event.detail.item) {
+          const oldIndx = Polymer.dom(this).children.indexOf(this._previousTab);
+          if(oldIndx > -1) {
+            this.selected = oldIndx;
+            this._previousSelect = oldIndx;
+          } else {
+            this._previousTab = event.detail.item;
+          }
+        }
         this.cancelDebouncer('tab-changed');
       },
 
