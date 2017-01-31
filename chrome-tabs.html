@@ -153,41 +153,45 @@ Custom property | Description | Default
 
       listeners: {
         'iron-select': '_onIronSelect',
-        'tab-close':'_tabClose',
+        'tab-close': '_tabClose',
+      },
+
+      ready: function() {
+        this.selected = 0;
       },
 
       attached: function() {
-          Polymer.dom(this).observeNodes((info) => {
-            this._attachedNodes(info.addedNodes);
-            this._removedNodes(info.removedNodes);
-          });
+        Polymer.dom(this).observeNodes((info) => {
+          this._attachedNodes(info.addedNodes);
+          this._removedNodes(info.removedNodes);
+        });
       },
 
       _attachedNodes: function(nodes) {
-        const addedTabs = nodes.filter( node => {
+        const addedTabs = nodes.filter(node => {
           return node.tagName === "CHROME-TAB";
         })
-        if( addedTabs.length === 1 ) {
+        if (addedTabs.length === 1) {
           this.selected = this.items.length - 1;
         }
       },
 
       _removedNodes: function(nodes) {
-        const removedTabs = nodes.filter( node => {
+        const removedTabs = nodes.filter(node => {
           return node.tagName === "CHROME-TAB";
         })
-        if( removedTabs.length && this.selected > this.items.length - 1 ) {
+        if (removedTabs.length && this.selected > this.items.length - 1) {
           this.selected = this.items.length - 1;
         }
       },
 
       _onIronSelect: function(event) {
-        if (this._previousSelect !== this.selected ) {
+        if (this._previousSelect !== this.selected) {
           this._previousTab = event.detail.item;
           this._previousSelect = this.selected;
-        } else if( this._previousTab !== event.detail.item) {
+        } else if (this._previousTab !== event.detail.item) {
           const oldIndx = Polymer.dom(this).children.indexOf(this._previousTab);
-          if(oldIndx > -1) {
+          if (oldIndx > -1) {
             this.selected = oldIndx;
             this._previousSelect = oldIndx;
           } else {
@@ -206,7 +210,9 @@ Custom property | Description | Default
       _tabClose: function(evt) {
         evt.target.classList.add('tab-removed');
         const indx = Polymer.dom(this).children.indexOf(evt.target);
-        this.fire('tab-remove', { index: indx });
+        this.fire('tab-remove', {
+          index: indx
+        });
       },
 
       _activateHandler: function() {
