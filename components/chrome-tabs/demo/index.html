@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+  <head>
+    <title>chrome-tabs demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import" href="../chrome-tabs.html">
+    <link rel="import" href="../chrome-tab.html">
+    <link rel="import" href="../../iron-pages/iron-pages.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+    .centered {
+      max-width:90%;
+    }
+    </style>
+  </head>
+  <body>
+
+    <div class="vertical-section-container centered">
+      <h3>Basic chrome-tabs Demo</h3>
+      <demo-snippet>
+        <template is="dom-bind" id="demo">
+          <style is="custom-style">
+            .content {
+              height: 100px;
+              padding: 10px;
+              box-sizing: border-box;
+              border: 1px solid lightgray;
+              border-top: none;
+              background: white;
+            }
+            iron-pages {
+              height: 100px;
+              background: gainsboro;
+            }
+          </style>
+          <chrome-tabs selected="{{selected}}" extendable id="tabs">
+            <template is="dom-repeat" items={{pages}}>
+              <chrome-tab icon="[[item.icon]]" title="[[item.title]]" unclosable=[[item.unclosable]]></chrome-tab>
+            </template>
+          </chrome-tabs>
+          <iron-pages selected="{{selected}}">
+            <template is="dom-repeat" items={{pages}}>
+              <div class="content">{{item.content}}</div>
+            </template>
+          </iron-pages>
+
+          <script>
+            const pages = [
+              {
+                icon: 'https://www.polymer-project.org/images/logos/p-logo-32.png',
+
+                title: 'Polymer project',
+                content: 'content 1'
+              },
+              {
+                icon: 'https://assets-cdn.github.com/favicon.ico',
+                title: 'Github',
+                unclosable: false,
+                content: 'content 2'
+              },
+              {
+                icon: 'https://www.google.fr/images/branding/product/ico/googleg_lodp.ico',
+                title: 'Google',
+                unclosable: false,
+                content: 'content 3'
+              },
+              {
+                icon: '',
+                title: 'Tab title',
+                unclosable: false,
+                content: 'content 4'
+              },
+            ];
+
+            const demo = document.querySelector('#demo');
+
+            demo.set('pages',pages);
+            Polymer.dom.flush();
+            demo.selected = 1;
+
+            demo.$.tabs.addEventListener('tab-add', () => {
+              const newTab = {
+                icon:'',
+                title:'about:blank',
+                content:`content ${pages.length+1}`
+              };
+              demo.push('pages', newTab);
+            });
+
+            demo.$.tabs.addEventListener('tab-remove', evt => {
+              demo.splice('pages', evt.detail.index, 1);
+            });
+          </script>
+
+        </template>
+      </demo-snippet>
+
+      <h3>customize chrome-tabs style</h3>
+      <demo-snippet>
+        <template>
+          <style is="custom-style">
+          .colorized, .colorized chrome-tab {
+            --tabs-background-color: rgb(90, 129, 167);
+            --tabs-add-hover-color: rgb(165, 189, 213);
+            --tab-background-color: rgb(58, 89, 119);
+            --tab-selected-color: rgb(165, 189, 213);
+            --tab-selected-text: black;
+            --tab-hover-color: rgb(58, 110, 162);
+            color:white;
+          }
+          </style>
+          <chrome-tabs class="colorized" selected="1" >
+            <chrome-tab icon="https://www.polymer-project.org/images/logos/p-logo-32.png" title="Tab title"></chrome-tab>
+            <chrome-tab icon="https://assets-cdn.github.com/favicon.ico" title="Tab title"></chrome-tab>
+            <chrome-tab title="Tab title"></chrome-tab>
+            <chrome-tab title="Tab title"></chrome-tab>
+          </chrome-tabs>
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>

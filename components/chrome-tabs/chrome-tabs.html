@@ -1,0 +1,232 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../iron-menu-behavior/iron-menubar-behavior.html">
+<link rel="import" href="./chrome-tab.html">
+
+
+<!--
+`chrome-tabs` a bar component to manage chrome-tab.
+
+Use `selected` property to get or set the selected tab.
+
+Example :
+
+    <chrome-tabs extendable selected="1" >
+      <chrome-tab icon="https://www.polymer-project.org/images/logos/p-logo-32.png" title="Tab title"></chrome-tab>
+      <chrome-tab icon="https://assets-cdn.github.com/favicon.ico" title="Tab title"></chrome-tab>
+      <chrome-tab title="Tab title"></chrome-tab>
+      <chrome-tab title="Tab title"></chrome-tab>
+    </chrome-tabs>
+
+### Styling
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+'--tabs-background-color' | background color of the chrome-tabs | #dad9da
+'--tabs-add-hover-color' | color of the add button on over | rgb(105, 101, 101)
+'--tab-background-color' | color of the add button | #afafaf
+'--tab-selected-color' | color of the selected tab | #f2f2f2
+'--tab-selected-text' | color of the selected text | black
+'--tab-hover-color' | color on fly over | #e8e8e8
+
+![chrome-tabs](chrome-tabs.gif)
+@hero ./chrome-tabs.gif
+@demo demo/index.html
+-->
+<dom-module id="chrome-tabs">
+  <template strip-whitespace>
+    <style>
+      :host {
+        display: flex;
+        box-sizing: border-box;
+        position: relative;
+        font-size: 10px;
+        height: 50px;
+        background: var(--tabs-background-color, #dad9da);
+        border-radius: 0.5em 0.5em 0 0;
+        box-shadow: 0 0.05em #b7b7b7;
+        overflow: hidden;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        --default-tab-background-color: #afafaf;
+        flex-direction:column;
+        outline:none;
+      }
+      * {
+        box-sizing: inherit;
+        font-family: inherit;
+      }
+      :host ::content chrome-tab:not(:first-child) {
+        margin-left: -15px;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      .chrome-tabs-bottom-bar {
+        position: absolute;
+        bottom: 0;
+        height: 0.45em;
+        left: 0;
+        width: 100%;
+        background: #f2f2f2;
+        box-shadow: 0 -0.05em rgba(0,0,0,0.27);
+        z-index: 1;
+      }
+      .chrome-tabs-content {
+        height: 40px;
+        display: flex;
+        padding: 0px 5px 4.5px 5px;
+      }
+      .chrome-tabs-top {
+        flex:1;
+      }
+      .tab-add {
+        width: 35px;
+        min-width: 35px;
+        box-sizing: border-box;
+        height: 16px;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+      }
+      .tab-add-right {
+        border-left: 7px solid var(--tab-background-color,--default-tab-background-color);
+        border-top: 16px solid transparent;
+      }
+      .tab-add-left {
+        border-right: 7px solid var(--tab-background-color,--default-tab-background-color);
+        border-bottom: 16px solid transparent;
+      }
+      .tab-add-content {
+        flex:1;
+        background: var(--tab-background-color,--default-tab-background-color);
+      }
+      .tab-add:hover .tab-add-content {
+        background: var(--tabs-add-hover-color, rgb(105, 101, 101));
+      }
+      .tab-add:hover .tab-add-right {
+        border-left-color: var(--tabs-add-hover-color, rgb(105, 101, 101));
+      }
+      .tab-add:hover .tab-add-left {
+        border-right-color: var(--tabs-add-hover-color, rgb(105, 101, 101));
+      }
+    </style>
+    <div class="chrome-tabs-top"></div>
+    <div class="chrome-tabs-content">
+      <slot></slot>
+      <div class="tab-add" on-tap="_add" hidden={{!extendable}}>
+        <div class="tab-add-left"></div>
+        <div class="tab-add-content"></div>
+        <div class="tab-add-right"></div>
+      </div>
+      <div class="chrome-tabs-bottom-bar"></div>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'chrome-tabs',
+
+      properties: {
+        _previousTab: {
+          type: Object
+        },
+        /**
+         * if set, the chrome-tabs bar contains an add button
+         * @type {Boolean}
+         */
+        extendable: {
+          type: Boolean,
+          value: false,
+        },
+      },
+
+      hostAttributes: {
+        role: 'tablist',
+      },
+
+      behaviors: [
+        Polymer.IronMenubarBehavior,
+      ],
+
+      listeners: {
+        'iron-select': '_onIronSelect',
+        'tab-close': '_tabClose',
+      },
+
+      ready: function() {
+        this.selected = 0;
+      },
+
+      attached: function() {
+        Polymer.dom(this).observeNodes((info) => {
+          this._attachedNodes(info.addedNodes);
+          this._removedNodes(info.removedNodes);
+        });
+      },
+
+      _attachedNodes: function(nodes) {
+        const addedTabs = nodes.filter(node => {
+          return node.tagName === "CHROME-TAB";
+        })
+        if (addedTabs.length === 1) {
+          this.selected = this.items.length - 1;
+        }
+      },
+
+      _removedNodes: function(nodes) {
+        const removedTabs = nodes.filter(node => {
+          return node.tagName === "CHROME-TAB";
+        })
+        if (removedTabs.length && this.selected > this.items.length - 1) {
+          this.selected = this.items.length - 1;
+        }
+      },
+
+      _onIronSelect: function(event) {
+        if (this._previousSelect !== this.selected) {
+          this._previousTab = event.detail.item;
+          this._previousSelect = this.selected;
+        } else if (this._previousTab !== event.detail.item) {
+          const oldIndx = Polymer.dom(this).children.indexOf(this._previousTab);
+          if (oldIndx > -1) {
+            this.selected = oldIndx;
+            this._previousSelect = oldIndx;
+          } else {
+            this._previousTab = event.detail.item;
+          }
+        }
+        this.cancelDebouncer('tab-changed');
+      },
+
+      /**
+       * sent when the user click on the close button of a tab
+       *
+       * @event tab-remove
+       * @param {integer} index index of the tab to remove
+       */
+      _tabClose: function(evt) {
+        evt.stopPropagation();
+        evt.target.classList.add('tab-removed');
+        const indx = Polymer.dom(this).children.indexOf(evt.target);
+        this.fire('tab-remove', { index: indx });
+      },
+
+      _activateHandler: function() {
+        Polymer.IronMenuBehaviorImpl._activateHandler.apply(this, arguments);
+      },
+
+      /**
+       * sent when the user click on the add button
+       *
+       * @event tab-add
+       */
+      _add: function() {
+        this.fire('tab-add');
+      },
+
+    });
+  </script>
+</dom-module>
