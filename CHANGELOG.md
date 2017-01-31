@@ -1,5 +1,5 @@
 
-### v2.0.0-pre
+### v2.0.0
 
 The component no longer allows you to add and remove tabs by internal methods, this should be done by the parent element or by script, which complies better to the mediator pattern.
 
