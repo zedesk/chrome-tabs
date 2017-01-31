@@ -202,17 +202,16 @@ Custom property | Description | Default
       },
 
       /**
-       * remove a tab when receiving a tab-close event
+       * sent when the user click on the close button of a tab
        *
        * @event tab-remove
-       * @param {integer} index index of the removed tab
+       * @param {integer} index index of the tab to remove
        */
       _tabClose: function(evt) {
+        evt.stopPropagation();
         evt.target.classList.add('tab-removed');
         const indx = Polymer.dom(this).children.indexOf(evt.target);
-        this.fire('tab-remove', {
-          index: indx
-        });
+        this.fire('tab-remove', { index: indx });
       },
 
       _activateHandler: function() {
@@ -220,11 +219,9 @@ Custom property | Description | Default
       },
 
       /**
-       * on clicking on the add button, create a new tab and
-       * fire a tab-add event
+       * sent when the user click on the add button
        *
        * @event tab-add
-       * @param {chrome-tab} item the created tab.
        */
       _add: function() {
         this.fire('tab-add');
