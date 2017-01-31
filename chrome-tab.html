@@ -207,10 +207,9 @@ Custom property | Description | Default
        * @event tap-close
        * @param {chrome-tab} item the curent tab
        */
-      _close: function(flag) {
-        if(flag) {
-          this.fire('tab-close', { item: this });
-        }
+      _close: function(evt) {
+        evt.stopPropagation();
+        this.fire('tab-close', { item: this });
       },
 
     });
