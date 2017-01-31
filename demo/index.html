@@ -24,7 +24,7 @@
     <div class="vertical-section-container centered">
       <h3>Basic chrome-tabs Demo</h3>
       <demo-snippet>
-        <template>
+        <template is="dom-bind" id="demo">
           <style is="custom-style">
             .content {
               height: 100px;
@@ -39,46 +39,62 @@
               background: gainsboro;
             }
           </style>
-          <chrome-tabs selected="1" extendable >
-            <chrome-tab unclosable icon="https://www.polymer-project.org/images/logos/p-logo-32.png" title="Tab title"></chrome-tab>
-            <chrome-tab icon="https://assets-cdn.github.com/favicon.ico" title="Tab title"></chrome-tab>
-            <chrome-tab
-              icon='https://www.google.fr/images/branding/product/ico/googleg_lodp.ico'
-              title="Google"></chrome-tab>
-            <chrome-tab title="Tab title"></chrome-tab>
+          <chrome-tabs selected="{{selected}}" extendable id="tabs">
+            <template is="dom-repeat" items={{pages}}>
+              <chrome-tab icon="[[item.icon]]" title="[[item.title]]" unclosable=[[item.unclosable]]></chrome-tab>
+            </template>
           </chrome-tabs>
-          <iron-pages selected="1">
-            <div class="content">
-              content 1
-            </div>
-            <div class="content">
-              content 2
-            </div>
-            <div class="content">
-              content 3
-            </div>
-            <div class="content">
-              content 4
-            </div>
+          <iron-pages selected="{{selected}}">
+            <template is="dom-repeat" items={{pages}}>
+              <div class="content">{{item.content}}</div>
+            </template>
           </iron-pages>
 
           <script>
-            const tabs = document.querySelector('chrome-tabs');
-            const pages = document.querySelector('iron-pages');
-            let pgnb = 4;
-            tabs.addEventListener('iron-select', (evt) => {
-              pages.selected = evt.target.selected;
+            const pages = [
+              {
+                icon: 'https://www.polymer-project.org/images/logos/p-logo-32.png',
+
+                title: 'Polymer project',
+                content: 'content 1'
+              },
+              {
+                icon: 'https://assets-cdn.github.com/favicon.ico',
+                title: 'Github',
+                unclosable: false,
+                content: 'content 2'
+              },
+              {
+                icon: 'https://www.google.fr/images/branding/product/ico/googleg_lodp.ico',
+                title: 'Google',
+                unclosable: false,
+                content: 'content 3'
+              },
+              {
+                icon: '',
+                title: 'Tab title',
+                unclosable: false,
+                content: 'content 4'
+              },
+            ];
+
+            const demo = document.querySelector('#demo');
+
+            demo.set('pages',pages);
+            Polymer.dom.flush();
+            demo.selected = 1;
+
+            demo.$.tabs.addEventListener('tab-add', () => {
+              const newTab = {
+                icon:'',
+                title:'about:blank',
+                content:`content ${pages.length+1}`
+              };
+              demo.push('pages', newTab);
             });
-            tabs.addEventListener('tab-remove', (evt) => {
-              Polymer.dom(pages).removeChild(pages.children[evt.detail.index]);
-            })
-            tabs.addEventListener('tab-add', (evt) => {
-              // const tab = evt.detail.item;
-              // tab.icon = 'https://secure.gravatar.com/avatar/7ce3d6a27f4bb70d59ca8ecb3092f781?s=52&d=identicon'
-              const page = document.createElement('div');
-              page.classList.add('content')
-              page.innerHTML = `content ${++pgnb}`;
-              Polymer.dom(pages).appendChild(page);
+
+            demo.$.tabs.addEventListener('tab-remove', evt => {
+              demo.splice('pages', evt.detail.index, 1);
             });
           </script>
 
@@ -99,7 +115,7 @@
             color:white;
           }
           </style>
-          <chrome-tabs class="colorized" extendable selected="1" >
+          <chrome-tabs class="colorized" selected="1" >
             <chrome-tab icon="https://www.polymer-project.org/images/logos/p-logo-32.png" title="Tab title"></chrome-tab>
             <chrome-tab icon="https://assets-cdn.github.com/favicon.ico" title="Tab title"></chrome-tab>
             <chrome-tab title="Tab title"></chrome-tab>

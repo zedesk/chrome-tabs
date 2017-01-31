@@ -1,6 +1,6 @@
 {
   "name": "chrome-tabs",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "A chrome-tabs component",
   "license": "LICENSE.md",
   "main": "chrome-tabs.html",
@@ -28,7 +28,9 @@
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
     "iron-pages": "PolymerElements/iron-pages#^1.0.8",
     "web-component-tester": "^4.0.0",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
+    "chai": "^3.5.0",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#^1.4.0"
   },
   "ignore": [
     "demo/",

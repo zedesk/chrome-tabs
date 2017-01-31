@@ -1,0 +1,167 @@
+<!doctype html>
+
+<html>
+
+<head>
+  <title>chrome-tabs test</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../chai/chai.js"></script>
+
+  <link rel="import" href="../chrome-tabs.html">
+  <link rel="import" href="../chrome-tab.html">
+  <link rel="import" href="../../iron-test-helpers/iron-test-helpers.html">
+</head>
+
+<body>
+
+  <test-fixture id="basic">
+    <template>
+        <chrome-tabs extendable></chrome-tabs>
+      </template>
+  </test-fixture>
+
+  <test-fixture id="multitabs">
+    <template>
+        <chrome-tabs extendable>
+          <chrome-tab unclosable icon="https://www.polymer-project.org/images/logos/p-logo-32.png" title="Tab title"></chrome-tab>
+          <chrome-tab icon="https://assets-cdn.github.com/favicon.ico" title="Tab title"></chrome-tab>
+          <chrome-tab
+                icon='https://www.google.fr/images/branding/product/ico/googleg_lodp.ico'
+                title="Google"></chrome-tab>
+          <chrome-tab title="Tab title"></chrome-tab>
+        </chrome-tabs>
+      </template>
+  </test-fixture>
+
+  <script>
+    suite('chrome-tabs', () => {
+
+      test('instantiating the element works', () => {
+        const element = fixture('basic');
+        assert.equal(element.is, 'chrome-tabs');
+        expect(element.extendable).to.be.true;
+        expect(element.selected).to.be.equal(0);
+        expect(element.items.length).to.be.equal(0);
+      });
+
+      test('add a tab', (done) => {
+        const element = fixture('basic');
+        newTab = document.createElement('chrome-tab');
+        newTab.icon = 'https://www.polymer-project.org/images/logos/p-logo-32.png',
+          newTab.title = '';
+        Polymer.dom(element).appendChild(newTab);
+
+        flush(() => {
+          expect(element.items.length).to.be.equal(1);
+          expect(element.selected).to.be.equal(0);
+          done();
+        });
+      });
+
+      test('add-tab event', (done) => {
+        const element = fixture('basic');
+        element.addEventListener('tab-add', evt => {
+          expect(evt.type).to.be.equal('tab-add');
+          done()
+        });
+        MockInteractions.tap(element.querySelector('* /deep/ .tab-add'));
+
+      });
+
+      test('select by click', (done) => {
+        const element = fixture('multitabs');
+        expect(element.selected).to.be.equal(0);
+        expect(element.items.length).to.be.equal(4);
+        MockInteractions.tap(element.items[2]);
+
+        flush(() => {
+          expect(element.selected).to.be.equal(2);
+          done();
+        })
+      });
+
+      test('select by setting selected', (done) => {
+        const element = fixture('multitabs');
+        element.selected = 1;
+        flush( () => {
+          expect(element.selectedItem).to.be.eql(element.items[1]);
+          done();
+        })
+      });
+
+      test('tab-close event is emitted by clicking a close button', (done) => {
+        const element = fixture('multitabs');
+        element.selected = 3;
+
+        element.addEventListener('tab-remove', evt => {
+            expect(evt.type).to.be.equal('tab-remove');
+            expect(evt.detail.index).to.be.equal(3);
+            done()
+        });
+        MockInteractions.tap(element.items[3].querySelector('* /deep/ .tab-close'));
+      });
+
+      test('remove the last tab which is selected', (done) => {
+        const element = fixture('multitabs');
+        element.selected = 3;
+        Polymer.dom.flush();
+        expect(element.selected).to.be.equal(3);
+        expect(element.selectedItem).to.be.eql(element.items[3]);
+        Polymer.dom(element).removeChild(element.items[3]);
+        flush( () => {
+          expect(element.selected).to.be.equal(2);
+          done();
+        })
+      })
+
+      test('remove a tab which index is greater than the selected one', (done) => {
+        const element = fixture('multitabs');
+        element.selected = 1;
+        Polymer.dom.flush();
+        expect(element.selected).to.be.equal(1);
+        expect(element.selectedItem).to.be.eql(element.items[1]);
+        Polymer.dom(element).removeChild(element.items[1]);
+        flush( () => {
+          expect(element.selected).to.be.equal(1);
+          expect(element.selectedItem).to.be.eql(element.items[1]);
+          done();
+        })
+      })
+
+      test('remove a tab which index is lower than the selected one', (done) => {
+        const element = fixture('multitabs');
+        element.selected = 1;
+        Polymer.dom.flush();
+        expect(element.selected).to.be.equal(1);
+        expect(element.selectedItem).to.be.eql(element.items[1]);
+        Polymer.dom(element).removeChild(element.items[0]);
+        flush( () => {
+          expect(element.selected).to.be.equal(0);
+          expect(element.selectedItem).to.be.eql(element.items[0]);
+          done();
+        })
+      })
+
+      test('remove the selected tab', (done) => {
+        const element = fixture('multitabs');
+        element.selected = 1;
+        Polymer.dom.flush();
+        expect(element.selected).to.be.equal(1);
+        expect(element.selectedItem).to.be.eql(element.items[1]);
+        Polymer.dom(element).removeChild(element.items[1]);
+        flush( () => {
+          expect(element.selected).to.be.equal(1);
+          expect(element.selectedItem).to.be.eql(element.items[1]);
+          done();
+        })
+      })
+
+
+    });
+  </script>
+</body>
+
+</html>
