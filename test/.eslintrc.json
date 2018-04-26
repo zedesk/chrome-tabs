@@ -1,0 +1,16 @@
+{
+  "env": {
+    "browser": true,
+    "mocha": true
+  },
+  "globals": {
+    "WCT": true,
+    "fixture": true,
+    "Polymer": true,
+    "flush": true,
+    "assert": true,
+    "MockInteractions": true,
+    "sinon": true,
+    "expect": true
+  }
+}
