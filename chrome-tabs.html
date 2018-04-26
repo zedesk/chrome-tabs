@@ -1,4 +1,4 @@
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../iron-menu-behavior/iron-menubar-behavior.html">
 <link rel="import" href="./chrome-tab.html">
@@ -125,81 +125,60 @@ Custom property | Description | Default
   </template>
 
   <script>
-    Polymer({
+    class ChromeTabs extends Polymer.Element {
+      static get is() {
+        return 'chrome-tabs'
+      }
 
-      is: 'chrome-tabs',
-
-      properties: {
-        _previousTab: {
-          type: Object
-        },
-        /**
-         * if set, the chrome-tabs bar contains an add button
-         * @type {Boolean}
-         */
-        extendable: {
-          type: Boolean,
-          value: false,
-        },
-      },
-
-      hostAttributes: {
-        role: 'tablist',
-      },
-
-      behaviors: [
-        Polymer.IronMenubarBehavior,
-      ],
-
-      listeners: {
-        'iron-select': '_onIronSelect',
-        'tab-close': '_tabClose',
-      },
-
-      ready: function() {
-        this.selected = 0;
-      },
-
-      attached: function() {
-        Polymer.dom(this).observeNodes((info) => {
-          this._attachedNodes(info.addedNodes);
-          this._removedNodes(info.removedNodes);
-        });
-      },
-
-      _attachedNodes: function(nodes) {
-        const addedTabs = nodes.filter(node => {
-          return node.tagName === "CHROME-TAB";
-        })
-        if (addedTabs.length === 1) {
-          this.selected = this.items.length - 1;
+      static get properties() {
+        return {
+          _previousTab: {
+            type: Object,
+          },
+          /**
+           * if set, the chrome-tabs bar contains an add button
+           * @type {Boolean}
+           */
+          extendable: {
+            type: Boolean,
+            value: false,
+          },
+          selected: {
+            type: Number,
+            value: 0,
+          },
         }
-      },
+      }
 
-      _removedNodes: function(nodes) {
-        const removedTabs = nodes.filter(node => {
-          return node.tagName === "CHROME-TAB";
-        })
-        if (removedTabs.length && this.selected > this.items.length - 1) {
-          this.selected = this.items.length - 1;
-        }
-      },
+      constructor() {
+        super()
+        this._onIronSelect = this._onIronSelect.bind(this)
+        this._tabClose = this._tabClose.bind(this)
+      }
 
-      _onIronSelect: function(event) {
+      connectedCallback() {
+        super.connectedCallback()
+        this._ensureAttribute('role', 'tablist')
+        this.addEventListener('iron-select', this._onIronSelect)
+        this.addEventListener('tab-close', this._tabClose)
+        this.selected = 0
+      }
+
+      _onIronSelect(event) {
         if (this._previousSelect !== this.selected) {
-          this._previousTab = event.detail.item;
-          this._previousSelect = this.selected;
+          this._previousTab = event.detail.item
+          this._previousSelect = this.selected
         } else if (this._previousTab !== event.detail.item) {
-          const oldIndx = Polymer.dom(this).children.indexOf(this._previousTab);
+          const oldIndx = Polymer.dom(this).children.indexOf(this._previousTab)
           if (oldIndx > -1) {
-            this.selected = oldIndx;
-            this._previousSelect = oldIndx;
+            this.selected = oldIndx
+            this._previousSelect = oldIndx
           } else {
-            this._previousTab = event.detail.item;
+            this._previousTab = event.detail.item
           }
         }
-        this.cancelDebouncer('tab-changed');
-      },
+        this.cancelDebouncer('tab-changed')
+      }
 
       /**
        * sent when the user click on the close button of a tab
@@ -207,26 +186,23 @@ Custom property | Description | Default
        * @event tab-remove
        * @param {integer} index index of the tab to remove
        */
-      _tabClose: function(evt) {
-        evt.stopPropagation();
-        evt.target.classList.add('tab-removed');
-        const indx = Polymer.dom(this).children.indexOf(evt.target);
-        this.fire('tab-remove', { index: indx });
-      },
-
-      _activateHandler: function() {
-        Polymer.IronMenuBehaviorImpl._activateHandler.apply(this, arguments);
-      },
+      _tabClose(evt) {
+        evt.stopPropagation()
+        evt.target.classList.add('tab-removed')
+        const indx = Polymer.dom(this).children.indexOf(evt.target)
+        this.fire('tab-remove', { index: indx })
+      }
 
       /**
        * sent when the user click on the add button
        *
        * @event tab-add
        */
-      _add: function() {
-        this.fire('tab-add');
-      },
+      _add() {
+        this.fire('tab-add')
+      }
+    }
 
-    });
+    window.customElements.define(ChromeTabs.is, ChromeTabs)
   </script>
 </dom-module>
