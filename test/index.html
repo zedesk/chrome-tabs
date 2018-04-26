@@ -18,9 +18,13 @@
     <script>
       // Load and run all tests (.html, .js):
       WCT.loadSuites([
-        'chrome-tabs_test.html',
-        'chrome-tabs_test.html?dom=shadow'
-      ]);
+        // shady dom
+        // 'chrome-tabs_test.html?wc-shadydom=true&wc-ce=true',
+        'chrome-tab_test.html?wc-shadydom=true&wc-ce=true',
+        // shadow dom test
+        // 'chrome-tabs_test.html?dom=shadow',
+        'chrome-tab_test.html?dom=shadow',
+      ])
     </script>
   </body>
 </html>

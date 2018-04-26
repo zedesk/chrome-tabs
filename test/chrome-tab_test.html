@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>zdkelt-swipeable-action test</title>
+
+    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../iron-test-helpers/mock-interactions.js"></script>
+    <script src="../../test-fixture/test-fixture-mocha.js"></script>
+
+    <link rel="import" href="../chrome-tab.html">
+    <link rel="import" href="../../test-fixture/test-fixture.html">
+    <style>
+    </style>
+  </head>
+  <body>
+
+    <test-fixture id="BasicTestFixture">
+      <template>
+        <chrome-tab></chrome-tab>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="actions">
+      <template>
+        <chrome-tab
+          icon='https://www.polymer-project.org/images/logos/p-logo-32.png'
+          title='Polymer 2.x'></chrome-tab>
+      </template>
+    </test-fixture>
+
+    <script>
+      describe('<chrome-tab>', () => {
+        it('init', () => {
+          const element = fixture('BasicTestFixture')
+          const shadowRoot = element.shadowRoot
+          expect(shadowRoot.childElementCount).to.be.equal(6)
+          const title = shadowRoot.querySelector('.tab-title')
+          expect(title.textContent).to.be.equal('about:blank')
+        })
+
+        it.only('init with params', (done) => {
+          const element = fixture('actions')
+          flush(() => {
+            const shadowRoot = element.shadowRoot
+            expect(shadowRoot.childElementCount).to.be.equal(6)
+            const title = shadowRoot.querySelector('.tab-title')
+            expect(title.textContent).to.be.equal('Polymer 2.x')
+            debugger
+            done()
+          })
+        })
+      })
+    </script>
+  </body>
+</html>
