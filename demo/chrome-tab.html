@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Chrome Tab</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+  <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+  <link rel="import" href="../chrome-tab.html">
+
+  <custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      body { 
+        font-family: Roboto;
+        font-size: 16px;
+      }
+    </style>
+  </custom-style>
+</head>
+<body>
+    <div class="vertical-section-container centered">
+      <h3>Basic chrome-tabs Demo</h3>
+      <demo-snippet>
+          <template>
+            <style is="custom-style">
+              div { display: flex; }
+              chrome-tab { margin-left: -10px }
+
+              .pink {
+                --tab-background-color: #a67aaa;
+                --tab-selected-color: #97239b;
+                --tab-hover-color: #d418cb;
+                --tab-selected-text: white;
+                --tab-hover-text: lightgray;
+                color: burlywood;
+              }
+            </style>
+            <div>
+              <chrome-tab unclosable></chrome-tab>
+              <chrome-tab></chrome-tab>
+              <chrome-tab class='iron-selected'></chrome-tab>
+              <chrome-tab class='pink'></chrome-tab>
+            </div>
+          </template>
+      </demo-snippet>
+    </div>
+</body>
+</html>

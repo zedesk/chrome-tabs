@@ -27,7 +27,7 @@
     <test-fixture id="actions">
       <template>
         <chrome-tab
-          icon='https://www.polymer-project.org/images/logos/p-logo-32.png'
+          icon='./zeDesk.png'
           title='Polymer 2.x'></chrome-tab>
       </template>
     </test-fixture>
@@ -37,19 +37,67 @@
         it('init', () => {
           const element = fixture('BasicTestFixture')
           const shadowRoot = element.shadowRoot
-          expect(shadowRoot.childElementCount).to.be.equal(6)
           const title = shadowRoot.querySelector('.tab-title')
+          expect(shadowRoot.childElementCount).to.be.equal(6)
           expect(title.textContent).to.be.equal('about:blank')
+          expect(element.getAttribute('role')).to.be.equal('tab')
         })
 
-        it.only('init with params', (done) => {
+        it('init with params', (done) => {
           const element = fixture('actions')
           flush(() => {
             const shadowRoot = element.shadowRoot
             expect(shadowRoot.childElementCount).to.be.equal(6)
             const title = shadowRoot.querySelector('.tab-title')
             expect(title.textContent).to.be.equal('Polymer 2.x')
-            debugger // eslint-disable-line
+            done()
+          })
+        })
+
+        it('set title', (done) => {
+          const element = fixture('actions')
+          element.title = 'new title'
+          flush(() => {
+            const shadowRoot = element.shadowRoot
+            const title = shadowRoot.querySelector('.tab-title')
+            expect(title.textContent).to.be.equal('new title')
+            done()
+          })
+        })
+
+        it('set logo', (done) => {
+          const element = fixture('actions')
+          element.icon = 'https://www.polymer-project.org//images/logos/p-logo-32.png'
+          flush(() => {
+            const shadowRoot = element.shadowRoot
+            const logo = shadowRoot.querySelector('.tab-icon img')
+            expect(logo.src).to.be.equal('https://www.polymer-project.org//images/logos/p-logo-32.png')
+            done()
+          })
+        })
+
+        it('close event', (done) => {
+          const element = fixture('actions')
+          flush(() => {
+            const shadowRoot = element.shadowRoot
+            const close = shadowRoot.querySelector('.tab-close')
+            element.addEventListener('tab-close', (evt) => {
+              expect(evt).to.have.property('detail')
+              expect(evt.detail).to.have.property('item')
+              expect(evt.detail.item).to.be.equal(element)
+              done()
+            })
+            MockInteractions.tap(close)
+          })
+        })
+
+        it('unclosable', (done) => {
+          const element = fixture('actions')
+          element.setAttribute('unclosable', true)
+          flush(() => {
+            const shadowRoot = element.shadowRoot
+            const close = shadowRoot.querySelector('.tab-close')
+            expect(close.getAttribute('hidden')).to.be.equal('')
             done()
           })
         })
