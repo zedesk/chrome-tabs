@@ -125,7 +125,7 @@ Custom property | Description | Default
   </template>
 
   <script>
-    class ChromeTabs extends Polymer.Element {
+    class ChromeTabs extends Polymer.mixinBehaviors([Polymer.IronMenuBehavior], Polymer.Element) {
       static get is() {
         return 'chrome-tabs'
       }
@@ -161,7 +161,31 @@ Custom property | Description | Default
         this._ensureAttribute('role', 'tablist')
         this.addEventListener('iron-select', this._onIronSelect)
         this.addEventListener('tab-close', this._tabClose)
-        this.selected = 0
+
+        this._observer = new Polymer.FlattenedNodesObserver(this, (info) => {
+          this._addedNodes(info.addedNodes)
+          this._removedNodes(info.removedNodes)
+        })
+      }
+
+      disconnectCallback() {
+        super.disconnectCallback()
+        this._observer.disconnect()
+      }
+
+      _addedNodes(nodes) {
+        const addedTabs = nodes.filter(node => node.tagName === 'CHROME-TAB')
+        if (addedTabs.length === 1) {
+          this.selected = this.items.length - 1
+        }
+        this.dispatchEvent(new CustomEvent('tab-added', { detail: { added: addedTabs.length }, bubbles: true, composed: true }))
+      }
+
+      _removedNodes(nodes) {
+        const removedTabs = nodes.filter(node => node.tagName === 'CHROME-TAB')
+        if (removedTabs.length && this.selected > this.items.length - 1) {
+          this.selected = this.items.length - 1
+        }
       }
 
       _onIronSelect(event) {
@@ -177,7 +201,7 @@ Custom property | Description | Default
             this._previousTab = event.detail.item
           }
         }
-        this.cancelDebouncer('tab-changed')
+        // this.cancelDebouncer('tab-changed')
       }
 
       /**
@@ -190,7 +214,7 @@ Custom property | Description | Default
         evt.stopPropagation()
         evt.target.classList.add('tab-removed')
         const indx = Polymer.dom(this).children.indexOf(evt.target)
-        this.fire('tab-remove', { index: indx })
+        this.dispatchEvent(new CustomEvent('tab-remove', {detail: { index: indx }}))
       }
 
       /**
@@ -199,7 +223,7 @@ Custom property | Description | Default
        * @event tab-add
        */
       _add() {
-        this.fire('tab-add')
+        this.dispatchEvent(new CustomEvent('tab-add'))
       }
     }
 
