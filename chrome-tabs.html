@@ -160,7 +160,7 @@ Custom property | Description | Default
         super.connectedCallback()
         this._ensureAttribute('role', 'tablist')
         this.addEventListener('iron-select', this._onIronSelect)
-        this.addEventListener('tab-close', this._tabClose)
+        this.addEventListener('tab-close', this._tabClose, {capture: true})
 
         this._observer = new Polymer.FlattenedNodesObserver(this, (info) => {
           this._addedNodes(info.addedNodes)
