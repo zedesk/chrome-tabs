@@ -236,7 +236,11 @@ Custom property           | Description                | Default
        * @param {chrome-tab} item the curent tab
        */
       _close(evt) {
-        this.dispatchEvent(new CustomEvent('tab-close', {detail: {item: this}}))
+        this.dispatchEvent(new CustomEvent('tab-close', {
+          detail: {item: this},
+          bundle: true,
+          composed: true,
+        }))
       }
     }
 
