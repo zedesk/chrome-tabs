@@ -193,7 +193,7 @@ Custom property | Description | Default
           this._previousTab = event.detail.item
           this._previousSelect = this.selected
         } else if (this._previousTab !== event.detail.item) {
-          const oldIndx = Polymer.dom(this).children.indexOf(this._previousTab)
+          const oldIndx = Array.from(Polymer.dom(this).children).indexOf(this._previousTab)
           if (oldIndx > -1) {
             this.selected = oldIndx
             this._previousSelect = oldIndx
@@ -213,7 +213,7 @@ Custom property | Description | Default
       _tabClose(evt) {
         evt.stopPropagation()
         evt.target.classList.add('tab-removed')
-        const indx = Polymer.dom(this).children.indexOf(evt.target)
+        const indx = Array.from(Polymer.dom(this).children).indexOf(evt.target)
         this.dispatchEvent(new CustomEvent('tab-remove', {detail: { index: indx }}))
       }
 
