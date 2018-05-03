@@ -38,7 +38,6 @@
           const element = fixture('BasicTestFixture')
           const shadowRoot = element.shadowRoot
           const title = shadowRoot.querySelector('.tab-title')
-          expect(shadowRoot.childElementCount).to.be.equal(6)
           expect(title.textContent).to.be.equal('about:blank')
           expect(element.getAttribute('role')).to.be.equal('tab')
         })
@@ -47,7 +46,6 @@
           const element = fixture('actions')
           flush(() => {
             const shadowRoot = element.shadowRoot
-            expect(shadowRoot.childElementCount).to.be.equal(6)
             const title = shadowRoot.querySelector('.tab-title')
             expect(title.textContent).to.be.equal('Polymer 2.x')
             done()
