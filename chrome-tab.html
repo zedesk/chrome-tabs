@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="./chrome-tab-color.html">
 
 <!--
 `chrome-tab` a tab component managed in a chrome-tabs.
@@ -41,11 +42,6 @@ Custom property           | Description                | Default
         min-width: 70px;
         outline: none;
         margin-left: -15px;
-        --tab-background-color: #d0d0d0;
-        --tab-selected-color: #f2f2f2;
-        --tab-hover-color: #e8e8e8;
-        --tab-selected-text: black;
-        --tab-hover-text: black;
       }
 
       :host:not(:first-child) {
@@ -115,7 +111,7 @@ Custom property           | Description                | Default
       :host(.iron-selected) .tab-content {
         background: var(--tab-selected-color);
         border-top-color: var(--tab-selected-color);
-        color: var(--tab-selected-text, black);
+        color: var(--tab-selected-text);
       }
 
       :host(.iron-selected) .tab-left {
