@@ -201,7 +201,6 @@ Custom property | Description | Default
             this._previousTab = event.detail.item
           }
         }
-        // this.cancelDebouncer('tab-changed')
       }
 
       /**
@@ -211,7 +210,6 @@ Custom property | Description | Default
        * @param {integer} index index of the tab to remove
        */
       _tabClose(evt) {
-        evt.stopPropagation()
         evt.target.classList.add('tab-removed')
         const indx = Array.from(Polymer.dom(this).children).indexOf(evt.target)
         this.dispatchEvent(new CustomEvent('tab-remove', {detail: { index: indx }}))
