@@ -143,6 +143,9 @@ Custom property | Description | Default
             type: Boolean,
             value: false,
           },
+          /**
+           * The selected tab
+           */
           selected: {
             type: Number,
             value: null,
@@ -206,9 +209,9 @@ Custom property | Description | Default
       }
 
       /**
-       * sent when the user click on the close button of a tab
+       * when the user click on the close button of a tab
        *
-       * @event tab-remove
+       * @event tab-remove Fired when the user click on the close button of a tab
        * @param {integer} index index of the tab to remove
        */
       _tabClose(evt) {
@@ -222,7 +225,7 @@ Custom property | Description | Default
       /**
        * sent when the user click on the add button
        *
-       * @event tab-add
+       * @event tab-add Fired when the user click on the add button
        */
       _add() {
         this.dispatchEvent(new CustomEvent('tab-add'))
