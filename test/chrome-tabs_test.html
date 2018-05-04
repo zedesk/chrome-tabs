@@ -43,7 +43,7 @@
         flush(() => {
           assert.equal(element.constructor.name, 'ChromeTabs')
           expect(element.extendable).to.be.equal(true)
-          expect(element.selected).to.be.equal(0)
+          expect(element.selected).to.be.equal(null)
           expect(element.items.length).to.be.equal(0)
           done()
         })
@@ -76,12 +76,14 @@
       test('select by click', (done) => {
         const element = fixture('multitabs')
         flush(() => {
-          expect(element.selected).to.be.equal(0)
+          expect(element.selected).to.be.equal(null)
           expect(element.items.length).to.be.equal(4)
+          expect(element.getAttribute('selected')).to.be.equal(null)
           MockInteractions.tap(element.items[2])
 
           flush(() => {
             expect(element.selected).to.be.equal(2)
+            expect(element.getAttribute('selected')).to.be.equal('2')
             done()
           })
         })
@@ -96,7 +98,17 @@
         })
       })
 
-      test('tab-close event is emitted by clicking a close button', (done) => {
+      test('select by setting the selected attribute', (done) => {
+        const element = fixture('multitabs')
+        element.setAttribute('selected', '1')
+        flush(() => {
+          expect(element.selected).to.be.equal(1)
+          expect(element.selectedItem).to.be.eql(element.items[1])
+          done()
+        })
+      })
+
+      test('tab-remove event is emitted by clicking a close button', (done) => {
         const element = fixture('multitabs')
         element.selected = 3
 
