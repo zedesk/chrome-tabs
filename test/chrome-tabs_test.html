@@ -103,9 +103,11 @@
         element.addEventListener('tab-remove', evt => {
           expect(evt.type).to.be.equal('tab-remove')
           expect(evt.detail.index).to.be.equal(3)
+          expect(document.querySelector('chrome-tabs').children.length).to.be.equal(3)
           done()
         })
         flush(() => {
+          expect(element.children.length).to.be.equal(4)
           const tabShadowRoot = element.items[3].shadowRoot
           MockInteractions.tap(tabShadowRoot.querySelector('.tab-close'))
         })

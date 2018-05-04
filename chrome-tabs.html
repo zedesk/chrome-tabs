@@ -212,6 +212,8 @@ Custom property | Description | Default
       _tabClose(evt) {
         evt.target.classList.add('tab-removed')
         const indx = Array.from(Polymer.dom(this).children).indexOf(evt.target)
+        const tab = this.querySelector(`chrome-tab:nth-child(${indx + 1})`)
+        this.removeChild(tab)
         this.dispatchEvent(new CustomEvent('tab-remove', {detail: { index: indx }}))
       }
 
