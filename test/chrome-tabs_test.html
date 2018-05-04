@@ -108,6 +108,21 @@
         })
       })
 
+      test('check selected-changed event', (done) => {
+        const element = fixture('multitabs')
+
+        var selectEventHandler = sinon.spy()
+        element.addEventListener('selected-changed', selectEventHandler)
+
+        element.addEventListener('selected-changed')
+        element.setAttribute('selected', '1')
+        flush(() => {
+          expect(element.selected).to.be.equal(1)
+          expect(element.selectedItem).to.be.eql(element.items[1])
+          done()
+        })
+      })
+
       test('tab-remove event is emitted by clicking a close button', (done) => {
         const element = fixture('multitabs')
         element.selected = 3
